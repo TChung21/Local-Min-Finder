@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.ArrayList;
 //smaller to bigger to calculate inflexion points
@@ -14,16 +15,17 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         String equation = scan.nextLine();
         split(equation);
-        Main.MaxMin(terms);
+        System.out.println("The local min is: " + Arrays.toString(Main.MaxMin(terms)));
         Main.secondMax(terms);
+
     }
 
-    public static void MaxMin(ArrayList<Term> input) {
+    public static double[] MaxMin(ArrayList<Term> input) {
         for (int i = 0; i < (2 / interval * 100); i++) {
             found = false;
             x1 = x2;
             x2 = x2 - interval;
-            //System.out.println("x1, x2: "+ x1 + ", "+ x2);
+            //System.out.println("x1, x2: " + x1 + ", " + x2 + ", " + m + ", " + m2);
             for (int j = 0; j < input.size(); j++) {
                 //System.out.println(y1);
                 if (j == 0) {
@@ -45,7 +47,7 @@ public class Main {
             //System.out.println("x1, x2: " + x1 + ", " + x2 + ", " + y1 + ", " + y2);
             //System.out.println("m, m2: " + m + ", " + m2);
 
-            if (m > .00000001 || m < -.00000001) {
+            if (m > .000001 || m < -.000001) {
                 if (m / m2 < 0) {
                     found = false;
                     interval = interval / 10;
@@ -55,14 +57,15 @@ public class Main {
             }
             //System.out.println(m + ", " + m2);
 
-            if (m < .00000001 && m > -.00000001) {
+            if (m < .000001 && m > -.000001) {
                 found = true;
                 finalx = (x1 + x2) / 2;
                 finaly = (y1 + y2) / 2;
-                System.out.println("Max/Min Coordinate: (" + finalx + ", " + finaly + ")");
-                break;
+                return new double[]{finalx, finaly};
             }
         }
+        return new double[]{finalx, finaly};
+//        return new double[]{420.69, 69.420};
     }
 
     public static void secondMax(ArrayList<Term> input2) {
