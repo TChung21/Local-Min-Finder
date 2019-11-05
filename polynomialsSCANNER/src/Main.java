@@ -7,6 +7,8 @@ public class Main {
 
     public static double interval, m, m2, y1, y2, y3, y4, x2, x1, finalx, finaly;
     public static boolean found = false;
+    public static boolean print1 = true;
+    public static boolean print2 = false;
     public static ArrayList<Term> terms = new ArrayList<Term>();
 
     public static void main(String[] args) {
@@ -15,58 +17,50 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         String equation = scan.nextLine();
         split(equation);
-        System.out.println("The local min is: " + Arrays.toString(Main.MaxMin(terms)));
+        Main.MaxMin(terms);
         Main.secondMax(terms);
-
     }
 
-    public static double[] MaxMin(ArrayList<Term> input) {
+    public static void MaxMin(ArrayList<Term> input) { //ArrayList<Term> input
         for (int i = 0; i < (2 / interval * 100); i++) {
             found = false;
             x1 = x2;
             x2 = x2 - interval;
-            //System.out.println("x1, x2: " + x1 + ", " + x2 + ", " + m + ", " + m2);
             for (int j = 0; j < input.size(); j++) {
-                //System.out.println(y1);
                 if (j == 0) {
                     y1 = (input.get(j).coefficient * Math.pow(x1, input.get(j).power));
                     y2 = (input.get(j).coefficient * Math.pow(x2, input.get(j).power));
-                    y3 = (input.get(j).coefficient * Math.pow((x1 + interval), input.get(j).power));
-                    y4 = (input.get(j).coefficient * Math.pow((x2 + interval), input.get(j).power));
+                    y3 = (input.get(j).coefficient * Math.pow((x1 - interval), input.get(j).power));
+                    y4 = (input.get(j).coefficient * Math.pow((x2 - interval), input.get(j).power));
                 } else {
                     y1 = y1 + (input.get(j).coefficient * Math.pow(x1, input.get(j).power));
                     y2 = y2 + (input.get(j).coefficient * Math.pow(x2, input.get(j).power));
-                    y3 = y3 + (input.get(j).coefficient * Math.pow((x1 + interval), input.get(j).power));
-                    y4 = y4 + (input.get(j).coefficient * Math.pow((x2 + interval), input.get(j).power));
+                    y3 = y3 + (input.get(j).coefficient * Math.pow((x1 - interval), input.get(j).power));
+                    y4 = y4 + (input.get(j).coefficient * Math.pow((x2 - interval), input.get(j).power));
                 }
             }
+            //System.out.println(x1 + ", " + x2 + ", " + y1 + ", " + y2 + ", " + m + ", " + m2);
             m = (y2 - y1) / (x2 - x1);
             m2 = (y4 - y3) / ((x1) - (x1 + interval));
 
-            // System.out.println("y1, y2: " + y1+ ", " + y2);
-            //System.out.println("x1, x2: " + x1 + ", " + x2 + ", " + y1 + ", " + y2);
-            //System.out.println("m, m2: " + m + ", " + m2);
-
-            if (m > .000001 || m < -.000001) {
+            if (m > .0001 || m < -.0001) {
                 if (m / m2 < 0) {
-                    found = false;
                     interval = interval / 10;
                     x2 = x1;
-                    //System.out.println("different sign" + interval);
+                    found = false;
+                    //System.out.println(x1 + ", " + x2 + ", " + y1 + ", " + y2 + ", " + m + ", " + m2);
                 }
             }
-            //System.out.println(m + ", " + m2);
-
-            if (m < .000001 && m > -.000001) {
+            if (m < .0001 && m > -.0001) {
                 found = true;
                 finalx = (x1 + x2) / 2;
                 finaly = (y1 + y2) / 2;
-                return new double[]{finalx, finaly};
+                    System.out.println("Max/Min Coordinate: (" + finalx + ", " + finaly + ")");
+
             }
         }
-        return new double[]{finalx, finaly};
-//        return new double[]{420.69, 69.420};
     }
+
 
     public static void secondMax(ArrayList<Term> input2) {
         if (found) {
@@ -105,3 +99,28 @@ public class Main {
         }
     }
 }
+
+
+/*
+    interval = .25;
+        x2 = 100; //could change domain/range
+        Scanner scan = new Scanner(System.in);
+        String equation = scan.nextLine();
+        split(equation);
+        System.out.println("The local min is: " + Arrays.toString(Main.MaxMin(terms)));
+        Main.secondMax(terms);
+
+        for (int j = 0; j < input.size(); j++) {
+        if (j == 0) {
+        y1 = (input.get(j).coefficient * Math.pow(x1, input.get(j).power));
+        y2 = (input.get(j).coefficient * Math.pow(x2, input.get(j).power));
+        y3 = (input.get(j).coefficient * Math.pow((x1 + interval), input.get(j).power));
+        y4 = (input.get(j).coefficient * Math.pow((x2 + interval), input.get(j).power));
+        } else {
+        y1 = y1 + (input.get(j).coefficient * Math.pow(x1, input.get(j).power));
+        y2 = y2 + (input.get(j).coefficient * Math.pow(x2, input.get(j).power));
+        y3 = y3 + (input.get(j).coefficient * Math.pow((x1 + interval), input.get(j).power));
+        y4 = y4 + (input.get(j).coefficient * Math.pow((x2 + interval), input.get(j).power));
+        }
+        }
+        */
