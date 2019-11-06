@@ -21,7 +21,7 @@ public class Main {
         Main.secondMax(terms);
     }
 
-    public static void MaxMin(ArrayList<Term> input) { //ArrayList<Term> input
+    public static double[] MaxMin(ArrayList<Term> input) { //ArrayList<Term> input
         for (int i = 0; i < (2 / interval * 100); i++) {
             found = false;
             x1 = x2;
@@ -56,18 +56,20 @@ public class Main {
                 finalx = (x1 + x2) / 2;
                 finaly = (y1 + y2) / 2;
                     System.out.println("Max/Min Coordinate: (" + finalx + ", " + finaly + ")");
-
+                    return(new double[]{finalx,finaly});
             }
         }
+        return(new double[]{420,69});
     }
 
 
-    public static void secondMax(ArrayList<Term> input2) {
+    public static double[] secondMax(ArrayList<Term> input2) {
         if (found) {
             interval = .5;
             x2 = finalx - (interval / 2);
-            MaxMin(input2);
+            return MaxMin(input2);
         }
+        return(new double[]{69,420});
     }
 
     public static void split(String d) {
