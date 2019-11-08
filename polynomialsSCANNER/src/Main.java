@@ -1,9 +1,10 @@
 //TCHUNG 2019 Code
+
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.ArrayList;
 //smaller to bigger to calculate inflexion points
-// 5x^5-30x case
+// 5x^5-30x case //5x^4+-3x^2
 //5x^{4}-3x^{2} same -.35 problem //not finding negative value
 
 public class Main {
@@ -15,15 +16,16 @@ public class Main {
     public static ArrayList<Term> terms = new ArrayList<Term>();
 
     public static void main(String[] args) {
-        interval = .5;
+        interval = .25;
         x2 = 100; //could change domain/range
         Scanner scan = new Scanner(System.in);
         String equation = scan.nextLine();
         split(equation);
         Main.MaxMin(terms);
-        for (int i = 0; i < terms.get(0).coefficient; i++) {
-            Main.secondMax(terms);
-        }
+        //for (int i = 0; i < terms.get(0).coefficient; i++) {
+        Main.secondMax(terms);
+        Main.secondMax(terms);
+        //}
         interval = .5;
         x2 = 100;
         Main.zero(terms);
@@ -50,19 +52,18 @@ public class Main {
                     y4 = y4 + (input.get(j).coefficient * Math.pow((x2 - interval), input.get(j).power));
                 }
             }
-            //System.out.println(x1 + ", " + x2 + ", " + y1 + ", " + y2 + ", " + m + ", " + m2);
             m = (y2 - y1) / (x2 - x1);
             m2 = (y4 - y3) / ((x1) - (x1 + interval));
-
-            if (m > .0001 || m < -.0001) {
-                if (m / m2 < 0) {
+            //System.out.println(x1 + ", " + x2 + ", " + y1 + ", " + y2 + ", " + m + ", " + m2 + ", " + (m / m2));
+            
+            if ((m > .0001 || m2 < -.0001) || (m < -.0001 || m2 > .0001)) { //m > .0001 || m < -.0001
+                if ((m / m2) < 0) {
                     interval = interval / 10;
                     x2 = x1;
                     found = false;
-                    //System.out.println(x1 + ", " + x2 + ", " + y1 + ", " + y2 + ", " + m + ", " + m2);
                 }
             }
-            if (m < .0001 && m > -.0001) {
+            if ((m < .0001 && m > 0 && m2 > -.0001 && m2 < 0) || (m2 < .0001 && m2 > 0 && m > -.0001 && m < 0)) { //m < .0001 && m > -.0001
                 found = true;
                 finalx = (x1 + x2) / 2;
                 finaly = (y1 + y2) / 2;
@@ -75,8 +76,8 @@ public class Main {
 
     public static double[] secondMax(ArrayList<Term> input2) {
         if (found) {
-            interval = .5;
-            x2 = finalx - (interval / 2);
+            interval = .25;
+            x2 = finalx - (interval / 4);
             return MaxMin(input2);
         }
         return (new double[]{69, 420});
