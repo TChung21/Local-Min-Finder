@@ -21,13 +21,15 @@ public class Main {
         String equation = scan.nextLine();
         split(equation);
         Main.MaxMin(terms);
-        Main.secondMax(terms);
+        for (int i = 0; i < terms.get(0).coefficient; i++) {
+            Main.secondMax(terms);
+        }
         interval = .5;
         x2 = 100;
         Main.zero(terms);
-        Main.multiZero(terms);
-        Main.multiZero(terms);
-
+        for (int i = 0; i < terms.get(0).coefficient; i++) {
+            Main.multiZero(terms);
+        }
     }
 
     public static double[] MaxMin(ArrayList<Term> input) { //ArrayList<Term> input
