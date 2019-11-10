@@ -80,7 +80,7 @@ public class Main {
             x2 = finalx - (interval / 4);
             return MaxMin(input2);
         }
-        return (new double[]{69, 420});
+        return (new double[]{420, 69});
     }
 
     public static double[] zero(ArrayList<Term> input) {
@@ -114,12 +114,12 @@ public class Main {
                 counter++;
                 xint = x1; //better not to average here
                 System.out.println("zero " + counter + ": (" + xint + ", 0.0)");
-                return (new double[]{xint});
+                return (new double[]{xint, 0.0});
             }
 
         }
 
-        return (new double[]{xint});
+        return (new double[]{420, 69});
     }
 
     public static double[] multiZero(ArrayList<Term> input) {
