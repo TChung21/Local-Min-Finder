@@ -16,22 +16,26 @@ public class Main {
     public static ArrayList<Term> terms = new ArrayList<Term>();
 
     public static void main(String[] args) {
-        interval = .25;
+        interval = .15;
         x2 = 100; //could change domain/range
         Scanner scan = new Scanner(System.in);
         String equation = scan.nextLine();
         split(equation);
         Main.MaxMin(terms);
-        //for (int i = 0; i < terms.get(0).coefficient; i++) {
+        for (int i = 0; i < terms.get(0).power; i++) {
         Main.secondMax(terms);
-        Main.secondMax(terms);
-        //}
-        interval = .5;
+        //Main.secondMax(terms);
+        //Main.secondMax(terms);
+        }
+        interval = .10;
         x2 = 100;
         Main.zero(terms);
-        for (int i = 0; i < terms.get(0).coefficient; i++) {
+        for (int i = 0; i < terms.get(0).power; i++) {
             Main.multiZero(terms);
+           // Main.multiZero(terms);
+           // Main.multiZero(terms);
         }
+
     }
 
     public static double[] MaxMin(ArrayList<Term> input) { //ArrayList<Term> input
@@ -76,7 +80,7 @@ public class Main {
 
     public static double[] secondMax(ArrayList<Term> input2) {
         if (found) {
-            interval = .25;
+            interval = .15;
             x2 = finalx - (interval / 4);
             return MaxMin(input2);
         }
@@ -125,7 +129,7 @@ public class Main {
     public static double[] multiZero(ArrayList<Term> input) {
 
         if (MultiZero) {
-            interval = .5;
+            interval = .10;
             x2 = xint - (interval / 2);
             return zero(input);
         }
