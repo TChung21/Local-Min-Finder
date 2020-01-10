@@ -6,4 +6,9 @@ public class Term {
             coefficient=coef;
             power=expo;
         }
+
+
+        public String toString(){
+            return "TERMS: " + coefficient + "x^" + power;
+        }
 }

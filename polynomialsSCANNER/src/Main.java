@@ -1,6 +1,7 @@
 //TCHUNG 2019 Code
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.ArrayList;
 //smaller to bigger to calculate inflexion points
@@ -11,30 +12,39 @@ public class Main {
 
     public static double interval, m, m2, y1, y2, y3, y4, x2, x1, finalx, finaly, xint, xint2;
     public static int counter = 0;
+    public static int biggestPower;
     public static boolean found = false;
     public static boolean MultiZero = false;
     public static ArrayList<Term> terms = new ArrayList<Term>();
+    public static ArrayList<Term> numeratorTerms = new ArrayList<Term>();
+    public static ArrayList<Term> denominatorTerms = new ArrayList<Term>();
+    public static ArrayList<Integer> powerArray = new ArrayList<Integer>();
+
 
     public static void main(String[] args) {
         interval = .15;
         x2 = 100; //could change domain/range
         Scanner scan = new Scanner(System.in);
         String equation = scan.nextLine();
-        split(equation);
+        divisionSplit(equation);
+        //split(equation);
+        /*
         Main.MaxMin(terms);
         for (int i = 0; i < terms.get(0).power; i++) {
-        Main.secondMax(terms);
-        //Main.secondMax(terms);
-        //Main.secondMax(terms);
+            Main.secondMax(terms);
+            //Main.secondMax(terms);
+            //Main.secondMax(terms);
         }
         interval = .10;
         x2 = 100;
         Main.zero(terms);
         for (int i = 0; i < terms.get(0).power; i++) {
             Main.multiZero(terms);
-           // Main.multiZero(terms);
-           // Main.multiZero(terms);
+            // Main.multiZero(terms);
+            // Main.multiZero(terms);
         }
+        Main.endBehavior(terms);
+        */
 
     }
 
@@ -59,7 +69,7 @@ public class Main {
             m = (y2 - y1) / (x2 - x1);
             m2 = (y4 - y3) / ((x1) - (x1 + interval));
             //System.out.println(x1 + ", " + x2 + ", " + y1 + ", " + y2 + ", " + m + ", " + m2 + ", " + (m / m2));
-            
+
             if ((m > .0001 || m2 < -.0001) || (m < -.0001 || m2 > .0001)) { //m > .0001 || m < -.0001
                 if ((m / m2) < 0) {
                     interval = interval / 10;
@@ -138,6 +148,37 @@ public class Main {
 
     }
 
+    public static void endBehavior(ArrayList<Term> input) { //turn into return statement later for returning term
+
+        for (int j = 0; j < input.size(); j++) {
+            powerArray.add((int) input.get(j).power);
+        }
+        Collections.sort(powerArray);
+        //System.out.println(powerArray);
+        biggestPower = powerArray.get(input.size() - 1);
+        //System.out.println(biggestPower);
+
+        for (int j = 0; j < input.size(); j++) {
+            if (input.get(j).power == biggestPower) {
+                System.out.println("End Behavior is: " + (int)input.get(j).coefficient + "x^" + (int)input.get(j).power);
+            }
+        }
+    }
+
+    public static void divisionSplit (String d){
+        String delims = "/";
+        String[] numDen = d.split(delims);
+        for (int i = 0; i < numDen.length; i++) {
+            System.out.println(numDen[i]);
+        }
+        String numerator = numDen[0];
+        numeratorSplit(numerator);
+        String denominator = numDen[1];
+        denominatorSplit(denominator);
+        //make two term arraylists... one that holds top and one that holds bottom
+        //have tori's group rewrite old methods using whatever input we give them
+    }
+
     public static void split(String d) {
         int counter = 1;
         String[] arrOfStr = d.split("\\+");
@@ -161,8 +202,62 @@ public class Main {
                     power[counter - 1] = 1;
                 }
                 terms.add(new Term(coefficient[counter - 1], power[counter - 1]));
-                //System.out.println("Term Coefficient is " + coefficient[counter - 1]);
-                //System.out.println("Term Power is " + power[counter - 1]);
+            }
+        }
+    }
+
+    public static void numeratorSplit(String d) {
+        int counter = 1;
+        String[] arrOfStr = d.split("\\+");
+        for (String a : arrOfStr) counter++;
+        double[] coefficient;
+        double[] power;
+        coefficient = new double[counter];
+        power = new double[counter];
+
+        for (String a : arrOfStr) {
+            //System.out.println("Term:" + a);
+            String[] arrOfStr2 = a.split("\\^");
+            String[] arrOfStr3 = arrOfStr2[0].split("x");
+            for (String c : arrOfStr3) {
+                //System.out.println("Cofficient: " + c);
+                coefficient[counter - 1] = Double.parseDouble(c);
+                if (arrOfStr2.length == 2) {
+                    //System.out.println("Power:" + arrOfStr2[1]);
+                    power[counter - 1] = Double.parseDouble(arrOfStr2[1]);
+                } else {
+                    power[counter - 1] = 1;
+                }
+                numeratorTerms.add(new Term(coefficient[counter - 1], power[counter - 1]));
+                //System.out.println("NUMERATOR TERMS" + numeratorTerms.toString());
+            }
+        }
+    }
+
+    public static void denominatorSplit(String d) {
+        int counter = 1;
+        String[] arrOfStr = d.split("\\+");
+        for (String a : arrOfStr) counter++;
+        double[] coefficient;
+        double[] power;
+        coefficient = new double[counter];
+        power = new double[counter];
+
+        for (String a : arrOfStr) {
+            //System.out.println("Term:" + a);
+            String[] arrOfStr2 = a.split("\\^");
+            String[] arrOfStr3 = arrOfStr2[0].split("x");
+            for (String c : arrOfStr3) {
+                //System.out.println("Cofficient: " + c);
+                coefficient[counter - 1] = Double.parseDouble(c);
+                if (arrOfStr2.length == 2) {
+                    //System.out.println("Power:" + arrOfStr2[1]);
+                    power[counter - 1] = Double.parseDouble(arrOfStr2[1]);
+                } else {
+                    power[counter - 1] = 1;
+                }
+                denominatorTerms.add(new Term(coefficient[counter - 1], power[counter - 1]));
+                //System.out.println("DENOMINATOR TERMS" + denominatorTerms.toString());
             }
         }
     }
